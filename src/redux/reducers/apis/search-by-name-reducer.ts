@@ -2,13 +2,11 @@ import { AxiosError } from "axios";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 // back-end
-import baseService from "../../../back-end/base-service";
+import baseService from "./back-end/base-service";
 
 // helpers
-import { MovieType } from "../../../helpers/types";
-import { textsInApp } from "../../../../assets/textInApps";
-import { SEARCH_BY_NAME_REDUCER } from "../../reducer-names";
-import { mapBackEndMovieToFrontEnd } from "../../../helpers/functions";
+import { MovieType } from "./types";
+import { mapBackEndMovieToFrontEnd } from "./functions";
 
 type MovieSearchResponseType = {
     ok: boolean;
@@ -21,8 +19,8 @@ type MovieSearchBodyType = {
 };
 
 const initialState: {
-    error: string;
     isLoading: boolean;
+    error: string | undefined;
     response: MovieSearchResponseType;
 } = {
     error: "",
@@ -51,14 +49,14 @@ export const movieSearchApi = createAsyncThunk<MovieSearchResponseType, MovieSea
             const parsedError = error as AxiosError;
             // @ts-ignore
             const message = parsedError.response.data.message;
-            rejectWithValue(message ?? textsInApp["eng"].errorMessages.defaultBackendError);
-            throw new Error(message ?? textsInApp["eng"].errorMessages.defaultBackendError);
+            rejectWithValue(message ?? error.message);
+            throw new Error(message ?? error.message);
         }
     }
 );
 
 export const movieSearchSlice = createSlice({
-    name: SEARCH_BY_NAME_REDUCER,
+    name: "searchByName",
     initialState,
     reducers: {},
     extraReducers(builder) {
@@ -73,7 +71,7 @@ export const movieSearchSlice = createSlice({
         }),
         builder.addCase(movieSearchApi.rejected, (state, action) => {
             state.isLoading = false;
-            state.error = action.error.message ?? textsInApp["eng"].errorMessages.defaultBackendError;
+            state.error = action.error.message;
         });
     },
 });

@@ -1,7 +1,5 @@
 import { MovieType } from "./types";
 
-export const REMOTE_URL = "https://search.imdbot.workers.dev/";
-
 export const EXTRA_MOVIES: MovieType[] = [
     {
         title: "The Lord of the Rings: The Fellowship of the Ring",

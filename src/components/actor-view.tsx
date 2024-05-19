@@ -1,13 +1,12 @@
-import FastImage from "react-native-fast-image";
 import { StyleProp, StyleSheet, Text, View, ViewStyle } from "react-native";
 
 // types
-import { ActorDetail } from "../helpers/types";
+import { ActorDetail } from "api-reducers";
 
 // styles
+import { colors } from "../../assets/colors";
 import { textStyles } from "../../assets/texts";
 import { app_dimensions } from "../../assets/dimensions";
-import { colors } from "../../assets/colors";
 
 type ActorViewType = {
     containerStyle?: StyleProp<ViewStyle>;

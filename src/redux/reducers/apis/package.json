@@ -1,0 +1,20 @@
+{
+  "name": "api-reducers",
+  "version": "1.0.0",
+  "description": "apis based on redux",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "redux",
+    "thunk"
+  ],
+  "author": "Daniil Klishin",
+  "license": "ISC",
+  "dependencies": {
+    "@reduxjs/toolkit": "^2.2.5",
+    "axios": "^1.6.8",
+    "react-redux": "^9.1.2"
+  }
+}

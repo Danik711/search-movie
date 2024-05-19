@@ -1,8 +1,10 @@
-import { Pressable, StyleProp, StyleSheet, Text, View, ViewStyle } from "react-native";
 import FastImage from "react-native-fast-image";
+import { Pressable, StyleProp, StyleSheet, Text, View, ViewStyle } from "react-native";
+
+// styles
 import { colors } from "../../assets/colors";
-import { app_dimensions } from "../../assets/dimensions";
 import { textStyles } from "../../assets/texts";
+import { app_dimensions } from "../../assets/dimensions";
 
 type MovieItemType = {
     year: number;

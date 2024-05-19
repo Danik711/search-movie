@@ -12,8 +12,8 @@ import { selectMovie } from "../redux/reducers/movies-reducer";
 import { useAppDispatch, useAppSelector } from "../redux/store";
 
 // types
+import { getMovieDetialsApi } from "api-reducers";
 import { MovieDetailScreenNavType } from "../navigation/navigation-types";
-import { getMovieDetialsApi } from "../redux/reducers/apis/get-movie-details-reducer";
 
 // components
 import ActorView from "../components/actor-view";

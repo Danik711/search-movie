@@ -2,15 +2,13 @@ import { AxiosError } from "axios";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 // back-end
-import baseService from "../../../back-end/base-service";
+import baseService from "./back-end/base-service";
 
 // types
-import { MovieFullDetails } from "../../../helpers/types";
+import { MovieFullDetails } from "./types";
 
 // helpers
-import { textsInApp } from "../../../../assets/textInApps";
-import { GET_MOVIE_DETAILS_REDUCER } from "../../reducer-names";
-import { mapBackEndMovieFullDetailsToFrontEnd } from "../../../helpers/functions";
+import { mapBackEndMovieFullDetailsToFrontEnd } from "./functions";
 
 type MovieSearchResponseType = {
     movieDetails: MovieFullDetails
@@ -21,8 +19,8 @@ type GetMovieDetialsBodyType = {
 };
 
 const initialState: {
-    error: string;
     isLoading: boolean;
+    error: string | undefined;
     response: {
         movieDetails: MovieFullDetails
     };
@@ -58,14 +56,14 @@ export const getMovieDetialsApi = createAsyncThunk<MovieSearchResponseType, GetM
             const parsedError = error as AxiosError;
             // @ts-ignore
             const message = parsedError.response.data.message;
-            rejectWithValue(message ?? textsInApp["eng"].errorMessages.defaultBackendError);
-            throw new Error(message ?? textsInApp["eng"].errorMessages.defaultBackendError);
+            rejectWithValue(message ?? error.message);
+            throw new Error(message ?? error.message);
         }
     }
 );
 
 export const getMovieDetailsSlice = createSlice({
-    name: GET_MOVIE_DETAILS_REDUCER,
+    name: "movieDetails",
     initialState,
     reducers: {},
     extraReducers(builder) {
@@ -80,7 +78,7 @@ export const getMovieDetailsSlice = createSlice({
         }),
         builder.addCase(getMovieDetialsApi.rejected, (state, action) => {
             state.isLoading = false;
-            state.error = action.error.message ?? textsInApp["eng"].errorMessages.defaultBackendError;
+            state.error = action.error.message;
         });
     },
 });

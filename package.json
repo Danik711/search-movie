@@ -13,6 +13,7 @@
     "@react-navigation/native": "^6.1.17",
     "@react-navigation/native-stack": "^6.9.26",
     "@reduxjs/toolkit": "^2.2.5",
+    "api-reducers": "file:api-reducers-1.0.0.tgz",
     "axios": "^1.6.8",
     "fuzzysort": "^3.0.1",
     "moment": "^2.30.1",
