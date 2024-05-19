@@ -1,4 +1,4 @@
-Hello, ny name is Daniil. Thank you for your time to check the project!
+Hello, my name is Daniil. Thank you for your time to check the project!
 
 # Getting Started
 
