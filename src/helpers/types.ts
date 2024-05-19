@@ -12,6 +12,23 @@ export type MovieType = {
     photo_height: number;
 };
 
+export type ActorDetail = {
+    name: string;
+    photo: string;
+};
+
+export type MovieFullDetails = {
+    name: string;
+    image: string;
+    keywords: string;
+    description: string;
+    actors: ActorDetail[];
+    review: {
+        author: string;
+        comment: string;
+    },
+};
+
 export type MovieTypeBackend = {
     "#AKA": string; 
     "#YEAR": number; 

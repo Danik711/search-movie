@@ -4,16 +4,18 @@ import { useDispatch, useSelector, TypedUseSelectorHook } from "react-redux";
 // reducers
 import moviesReducer from "./reducers/movies-reducer";
 import searchByNameReducer from "./reducers/apis/search-by-name-reducer";
+import getMovieDetailsReducer from "./reducers/apis/get-movie-details-reducer";
 
 // helpers
-import { MOVIES_REDUCER, SEARCH_BY_NAME_REDUCER } from "./reducer-names";
+import { GET_MOVIE_DETAILS_REDUCER, MOVIES_REDUCER, SEARCH_BY_NAME_REDUCER } from "./reducer-names";
 
 export const store = configureStore({
     reducer: {
         [MOVIES_REDUCER]: moviesReducer,
         
         // apis
-        [SEARCH_BY_NAME_REDUCER]: searchByNameReducer
+        [SEARCH_BY_NAME_REDUCER]: searchByNameReducer,
+        [GET_MOVIE_DETAILS_REDUCER]: getMovieDetailsReducer
     }
 });
 

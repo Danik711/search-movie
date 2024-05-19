@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { StyleSheet, Text, SafeAreaView, StatusBar, View, NativeSyntheticEvent, TextInputSubmitEditingEventData, BackHandler, FlatList, ActivityIndicator, KeyboardAvoidingView, Platform } from "react-native";
+import { StyleSheet, SafeAreaView, StatusBar, View, NativeSyntheticEvent, TextInputSubmitEditingEventData, BackHandler, FlatList, KeyboardAvoidingView, Platform, Keyboard } from "react-native";
 
 // components
 import PageHeader from "../components/page-header";
@@ -9,12 +9,12 @@ import { MovieType } from "../helpers/types";
 import { MoviesHomeScreenNavType } from "../navigation/navigation-types";
 
 // helpers
+import alert from "../components/alert";
 import { textsInApp } from "../../assets/textInApps";
 import { EXTRA_MOVIES } from "../helpers/constants";
 
 // styles
 import { colors } from "../../assets/colors";
-import { textStyles } from "../../assets/texts";
 import { app_dimensions } from "../../assets/dimensions";
 
 // icons
@@ -23,24 +23,25 @@ import SearchIcon from "../../assets/icons/search-icon";
 // components
 import Button from "../components/ui/button";
 import MovieItem from "../components/movie-item";
+import LoadingData from "../components/loading-data";
 import InputField from "../components/ui/input-field";
 
 // redux
-import { setMovies } from "../redux/reducers/movies-reducer";
 import { useAppDispatch, useAppSelector } from "../redux/store";
+import { setMovieSearch, setMovies } from "../redux/reducers/movies-reducer";
 import { movieSearchApi } from "../redux/reducers/apis/search-by-name-reducer";
 
 export default function MoviesHomeScreen({ navigation }: MoviesHomeScreenNavType) {
     // bbolean that controls a button. Sets it off or on
     const [disabled, setDisabled] = useState(false);
 
-    // Text holds the names/keywords to search for movies
-    const [movieSearch, setMovieSearch] = useState("");
-
     const dispatch = useAppDispatch();
 
     // redux varaible that holds movies
     const reduxMovies = useAppSelector((state) => state.movies.reduxMovies);
+
+    // redux varaible that holds movie name/keyword to seach for movies
+    const reduxMovieSearch = useAppSelector((state) => state.movies.movieSeachData);
 
     // boolean that says if an api is being called 
     const isLoading = useAppSelector((state) => state.searchByName.isLoading);
@@ -91,11 +92,14 @@ export default function MoviesHomeScreen({ navigation }: MoviesHomeScreenNavType
     async function searchMovies(initialCall: boolean) {
         // Disabled button
         setDisabled(true);
+        if(Keyboard.isVisible())
+            Keyboard.dismiss();
+
         try {
             // Get movies
             const res = await dispatch(
                 movieSearchApi({
-                    searchVal: initialCall ? "space" : movieSearch
+                    searchVal: initialCall ? "space" : reduxMovieSearch
                 })
             ).unwrap();
             let movies: MovieType[] = [];
@@ -110,25 +114,33 @@ export default function MoviesHomeScreen({ navigation }: MoviesHomeScreenNavType
             // set movies in redux
             dispatch(setMovies(movies));
 
+            //reset search string
+            dispatch(setMovieSearch(""));
+            
             // enable button
             setDisabled(false);
         } catch(error: any) {
             // enable button
             setDisabled(false);
+            alert(textsInApp["eng"].popup_error, textsInApp["eng"].errorMessages.defaultBackendError);
         }
+    }
+
+    function navigateToMovieDetails(id: string) {
+       navigation.navigate("MovieDetails", { imdb_id: id });
     }
 
     // Function that renders movies in the flatlist
     function renderMovieItem(movie: MovieType) {
         return (
-           <MovieItem 
-                onPress={() => {}}
-                year={movie.year}
-                title={movie.title}
-                actors={movie.actors}
-                photo={movie.img_poster}
-                containerStyle={styles.movieItemStyle}
-           />
+        <MovieItem 
+            year={movie.year}
+            title={movie.title}
+            actors={movie.actors}
+            photo={movie.img_poster}
+            containerStyle={styles.movieItemStyle}
+            onPress={() => navigateToMovieDetails(movie.imdb_id)}
+        />
         );
     }
 
@@ -141,7 +153,7 @@ export default function MoviesHomeScreen({ navigation }: MoviesHomeScreenNavType
                 keyboardShouldPersistTaps={"handled"}
                 renderItem={({ item, index }) => renderMovieItem(item)}
             />
-        )
+        );
     }
 
     return (
@@ -169,32 +181,22 @@ export default function MoviesHomeScreen({ navigation }: MoviesHomeScreenNavType
                     style={styles.uiWrapper}
                 >
                     <InputField 
-                        value={movieSearch}
+                        value={reduxMovieSearch}
                         returnKeyType={"search"}
                         onSubmit={onSubmitSearch}
                         rightIcon={<SearchIcon />}
                         lable={textsInApp["eng"].movieName}
                         inputMainWrapperStyle={styles.inputStyle}
-                        onChangeText={(text) => setMovieSearch(text)}
                         placeholder={textsInApp["eng"].moviePlaceholder}
+                        onChangeText={(text) => dispatch(setMovieSearch(text))}
                     />
                     {
                         reduxMovies.length > 0 ?
                         renderMovies()
                         :
-                        <View
-                            style={styles.emptyMoviesWrapper}
-                        >
-                            <Text
-                                style={[textStyles.h4_18, { marginBottom: app_dimensions.dim8, color: colors.neutralBlack, textAlign: "center" }]}
-                            >
-                                {textsInApp["eng"].fetchingMovies}
-                            </Text>
-                            <ActivityIndicator 
-                                size={"large"}
-                                color={colors.primaryHundred}
-                            />
-                        </View>
+                        <LoadingData 
+                            text={textsInApp["eng"].fetchingMovies}
+                        />
                     }
                 </View>
                 <View
@@ -205,7 +207,7 @@ export default function MoviesHomeScreen({ navigation }: MoviesHomeScreenNavType
                         onPress={() => searchMovies(false)}
                         buttonStyle={{ alignSelf: "flex-end" }}
                         buttonText={textsInApp["eng"].searchMovies}
-                        disabled={!(movieSearch.length > 0) || disabled}
+                        disabled={!(reduxMovieSearch.length > 0) || disabled}
                     />
                 </View>
             </KeyboardAvoidingView>
@@ -238,12 +240,6 @@ const styles = StyleSheet.create({
         },
         shadowColor: '#000000',
         elevation: 4,
-    },
-    emptyMoviesWrapper: {
-        flex: 1,
-        alignSelf: "center",
-        justifyContent: "center",
-        flexDirection: "column",
     },
     inputStyle: {
         marginBottom: app_dimensions.dim12

@@ -35,7 +35,7 @@ const initialState: {
 };
 
 export const movieSearchApi = createAsyncThunk<MovieSearchResponseType, MovieSearchBodyType>(
-    "userRegsite/slice",
+    "movieSearch/slice",
     async ({ searchVal }, { rejectWithValue }) => {
         try {
             const res = await baseService.get("?q=" + searchVal);
