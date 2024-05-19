@@ -3,13 +3,17 @@ import { useDispatch, useSelector, TypedUseSelectorHook } from "react-redux";
 
 // reducers
 import moviesReducer from "./reducers/movies-reducer";
+import searchByNameReducer from "./reducers/apis/search-by-name-reducer";
 
 // helpers
-import { MOVIES_REDUCER } from "./reducer-names";
+import { MOVIES_REDUCER, SEARCH_BY_NAME_REDUCER } from "./reducer-names";
 
 export const store = configureStore({
     reducer: {
-        [MOVIES_REDUCER]: moviesReducer
+        [MOVIES_REDUCER]: moviesReducer,
+        
+        // apis
+        [SEARCH_BY_NAME_REDUCER]: searchByNameReducer
     }
 });
 

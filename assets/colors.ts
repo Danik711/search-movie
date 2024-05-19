@@ -30,4 +30,7 @@ export const colors = {
     neutral6: "#F5F5F5",
     neutralBlack: "#222222",
     neutralWhite: "#FFFFFF",
+
+    // Other Colors
+    transparent: "#00000000",
 }
