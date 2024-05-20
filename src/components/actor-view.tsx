@@ -1,7 +1,7 @@
 import { StyleProp, StyleSheet, Text, View, ViewStyle } from "react-native";
 
 // types
-import { ActorDetail } from "api-reducers";
+import { ActorDetail } from "../helpers/types";
 
 // styles
 import { colors } from "../../assets/colors";

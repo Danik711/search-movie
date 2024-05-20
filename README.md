@@ -43,11 +43,3 @@ npm run ios
 This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
 
 If everything is set up _correctly_, you should see Home Screen that is going to display movies and a search bar at the top.
-
-## P.S
-
-I pushed a package here that can be reused in React.js app to fetch movies' data. I also use it in the react-native app. It's name is
-
-```bash
- "api-reducers": "file:api-reducers-1.0.0.tgz",
-```

@@ -3,11 +3,8 @@ import { useDispatch, useSelector, TypedUseSelectorHook } from "react-redux";
 
 // reducers
 import moviesReducer from "./reducers/movies-reducer";
-// import searchByNameReducer from "./reducers/apis/search-by-name-reducer";
-// import getMovieDetailsReducer from "./reducers/apis/get-movie-details-reducer";
-
-// my package
-import { movieSearchSlice, getMovieDetailsSlice } from "api-reducers";
+import searchByNameReducer from "./reducers/apis/search-by-name-reducer";
+import getMovieDetailsReducer from "./reducers/apis/get-movie-details-reducer";
 
 // helpers
 import { GET_MOVIE_DETAILS_REDUCER, MOVIES_REDUCER, SEARCH_BY_NAME_REDUCER } from "./reducer-names";
@@ -17,10 +14,8 @@ export const store = configureStore({
         [MOVIES_REDUCER]: moviesReducer,
         
         // apis
-        // [SEARCH_BY_NAME_REDUCER]: searchByNameReducer,
-        // [GET_MOVIE_DETAILS_REDUCER]: getMovieDetailsReducer
-        [SEARCH_BY_NAME_REDUCER]: movieSearchSlice.reducer,
-        [GET_MOVIE_DETAILS_REDUCER]: getMovieDetailsSlice.reducer
+        [SEARCH_BY_NAME_REDUCER]: searchByNameReducer,
+        [GET_MOVIE_DETAILS_REDUCER]: getMovieDetailsReducer
     }
 });
 

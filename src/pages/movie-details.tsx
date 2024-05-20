@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import FastImage from "react-native-fast-image";
 import { BackHandler, SafeAreaView, StyleSheet, View, Text } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 
 // styles
@@ -12,8 +13,8 @@ import { selectMovie } from "../redux/reducers/movies-reducer";
 import { useAppDispatch, useAppSelector } from "../redux/store";
 
 // types
-import { getMovieDetialsApi } from "api-reducers";
 import { MovieDetailScreenNavType } from "../navigation/navigation-types";
+import { getMovieDetialsApi } from "../redux/reducers/apis/get-movie-details-reducer";
 
 // components
 import ActorView from "../components/actor-view";
@@ -24,7 +25,6 @@ import LoadingData from "../components/loading-data";
 import alert from "../components/alert";
 import { textStyles } from "../../assets/texts";
 import { textsInApp } from "../../assets/textInApps";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export default function MovieDetails({ navigation, route }: MovieDetailScreenNavType) {
     const { imdb_id } = route.params;

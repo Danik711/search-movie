@@ -5,7 +5,7 @@ import { StyleSheet, SafeAreaView, StatusBar, View, NativeSyntheticEvent, TextIn
 import PageHeader from "../components/page-header";
 
 // types
-import { MovieType } from "api-reducers";
+import { MovieType } from "../helpers/types";
 import { MoviesHomeScreenNavType } from "../navigation/navigation-types";
 
 // helpers
@@ -27,9 +27,9 @@ import LoadingData from "../components/loading-data";
 import InputField from "../components/ui/input-field";
 
 // redux
-import { movieSearchApi } from "api-reducers";
 import { useAppDispatch, useAppSelector } from "../redux/store";
 import { setMovieSearch, setMovies } from "../redux/reducers/movies-reducer";
+import { movieSearchApi } from "../redux/reducers/apis/search-by-name-reducer";
 
 export default function MoviesHomeScreen({ navigation }: MoviesHomeScreenNavType) {
     // bbolean that controls a button. Sets it off or on
