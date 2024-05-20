@@ -14,6 +14,10 @@ SSH: git@github.com:Danik711/search-movie.git
 ## Step 2: Install all dependencies
 ```bash
 npm install
+
+# for iOS specifically
+cd ios/
+pod install
 ```
 
 ## Step 3: Start Metro Server
